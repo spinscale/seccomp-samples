@@ -1,0 +1,16 @@
+name: crystal-seccomp
+version: 0.1.0
+
+authors:
+  - Alexander Reelsen 
+
+targets:
+  webserver:
+    main: src/webserver.cr
+
+dependencies:
+  seccomp:
+    github: S-YOU/seccomp.cr
+
+crystal: 0.35.0
+
