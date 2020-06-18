@@ -9,7 +9,7 @@ port = 8080
 OptionParser.parse do |parser|
   parser.banner = "Usage: webserver [arguments]"
   parser.on("-s", "--seccomp", "Enable seccomp policy") { seccomp = true }
-  parser.on("-l", "--log", "Log seccomp violation only") { log = true }
+  parser.on("-l", "--log", "Log seccomp violation only") { log = seccomp = true }
   parser.on("-p PORT", "--port=PORT", "Use port, defaults to 8080") { |port_new| port = port_new.to_i32 }
   parser.on("-h", "--help", "Show this help") do
     puts parser
@@ -42,9 +42,7 @@ end
 
 server.listen
 
-
 SCMP_ACT_LOG = 0x7ffc0000
-
 class SeccompClient < Seccomp
 
   def initialize(@log : Bool)
@@ -65,14 +63,12 @@ class SeccompClient < Seccomp
     seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("bind"), 0)
     seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("listen"), 0)
 
-    rc = seccomp_load(ctx);
-    STDOUT.print "seccomp_load == #{rc}"
+    ret = seccomp_load(ctx);
 
     # optional, dump policy on stdout
-    ret = seccomp_export_pfc(ctx, STDOUT_FILENO)
-    printf("seccomp_export_pfc result: %d\n", ret)
+    #ret = seccomp_export_pfc(ctx, STDOUT_FILENO)
+    #printf("seccomp_export_pfc result: %d\n", ret)
     seccomp_release(ctx)
     ret < 0 ? -ret : ret
   end
 end
-

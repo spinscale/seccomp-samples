@@ -8,8 +8,7 @@ class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self.send_response(200)
-        self.send_header('Content-Type',
-                         'text/plain; charset=utf-8')
+        self.send_header('Content-Type', 'text/plain; charset=utf-8')
         self.end_headers()
         output = subprocess.run(["/bin/ls", "-al"],  capture_output=True)
         self.wfile.write(output.stdout)
@@ -50,6 +49,7 @@ if __name__ == '__main__':
             seccomp = True
         elif o == "-l":
             log = True
+            seccomp = True
         elif o in ("-h", "--help"):
             usage()
             sys.exit()
