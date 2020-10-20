@@ -59,9 +59,6 @@ class SeccompClient < Seccomp
     seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("execveat"), 0)
     seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("fork"), 0)
     seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("vfork"), 0)
-    # stop listening to other ports
-    seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("bind"), 0)
-    seccomp_rule_add(ctx, action, seccomp_syscall_resolve_name("listen"), 0)
 
     ret = seccomp_load(ctx);
 

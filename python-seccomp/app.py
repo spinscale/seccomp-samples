@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import getopt, subprocess, sys
 
 from http.server import BaseHTTPRequestHandler
@@ -13,17 +15,16 @@ class GetHandler(BaseHTTPRequestHandler):
         output = subprocess.run(["/bin/ls", "-al"],  capture_output=True)
         self.wfile.write(output.stdout)
 
-def setup_seccomp(log):
+def setup_seccomp(log_only):
     f = SyscallFilter(ALLOW)
-    action = LOG if log else ERRNO(errno.EPERM)
+    #if not log_only:
+    f.set_attr(Attr.CTL_LOG, 1)
+    action = LOG if log_only else ERRNO(errno.EPERM)
     # stop executions
     f.add_rule(action, "execve")
     f.add_rule(action, "execveat")
     f.add_rule(action, "vfork")
     f.add_rule(action, "fork")
-    # stop listening & binding to other ports
-    f.add_rule(action, "bind")
-    f.add_rule(action, "listen")
     f.load()
     print(f'Seccomp enabled...')
 
