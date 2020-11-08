@@ -13,13 +13,17 @@ echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee /etc/ap
 
 sudo apt-get update 
 
-STACK_VERSION=7.9.2
+STACK_VERSION=7.9.3
 
-sudo apt-get install -y vim auditbeat=$STACK_VERSION elasticsearch=$STACK_VERSION kibana=$STACK_VERSION filebeat=$STACK_VERSION firejail strace crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev
+sudo apt-get install -y vim auditbeat=$STACK_VERSION elasticsearch=$STACK_VERSION kibana=$STACK_VERSION filebeat=$STACK_VERSION firejail strace crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev auditd
 
 sudo apt-get -t buster-backports install -y libseccomp2 libseccomp-dev seccomp python3-seccomp
 
 sudo /bin/systemctl daemon-reload
+
+# disable systemd so that auditbeat takes over
+sudo systemctl disable auditd.service
+sudo systemctl stop auditd.service
 
 sudo systemctl enable elasticsearch
 sudo systemctl start elasticsearch
@@ -33,4 +37,3 @@ echo "setup.dashboards.enabled: true" | sudo tee -a /etc/auditbeat/auditbeat.yml
 
 sudo systemctl enable auditbeat
 sudo systemctl start auditbeat
-
