@@ -14,7 +14,7 @@ echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee /etc/ap
 
 sudo apt-get update 
 
-STACK_VERSION=7.10.0
+STACK_VERSION=7.11.1
 
 sudo apt-get install -y vim auditbeat=$STACK_VERSION elasticsearch=$STACK_VERSION kibana=$STACK_VERSION filebeat=$STACK_VERSION firejail strace crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev auditd
 
