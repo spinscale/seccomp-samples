@@ -1,6 +1,6 @@
 version: 2.0
 shards:
   seccomp:
-    git: https://github.com/S-YOU/seccomp.cr.git
+    git: https://github.com/s-you/seccomp.cr.git
     version: 0.0.1+git.commit.002c4805baf28345312d9631043bb72a14d8bfec
 

@@ -5,16 +5,15 @@ sudo apt-get install -y curl apt-transport-https
 
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 # we need curl here, because wget doesn't know the TLS cert
-curl -sSL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add -
-
+curl -sSL "https://download.opensuse.org/repositories/devel:languages:crystal/Debian_10/Release.key" | sudo apt-key add -
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
-echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list
+echo "deb http://download.opensuse.org/repositories/devel:languages:crystal/Debian_10/ /" | sudo tee /etc/apt/sources.list.d/crystal.list
 # backports are required for a newer libseccomp
 echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee /etc/apt/sources.list.d/backports.list
 
 sudo apt-get update 
 
-STACK_VERSION=7.13.0
+STACK_VERSION=7.13.4
 
 sudo apt-get install -y vim auditbeat=$STACK_VERSION elasticsearch=$STACK_VERSION kibana=$STACK_VERSION filebeat=$STACK_VERSION firejail strace crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev auditd
 
